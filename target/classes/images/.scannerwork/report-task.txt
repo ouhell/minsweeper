@@ -1,0 +1,6 @@
+projectKey=minegame
+serverUrl=http://localhost:9000
+serverVersion=10.0.0.68432
+dashboardUrl=http://localhost:9000/dashboard?id=minegame
+ceTaskId=AYd0mKjEiJ2dPY7dg4vo
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYd0mKjEiJ2dPY7dg4vo
