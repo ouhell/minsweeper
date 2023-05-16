@@ -58,15 +58,17 @@ public class BoardTest {
             privateMethod.setAccessible(true);
             privateMethod.invoke(board, testCell, false);
 
-            assertTrue(fieldValue[testCell] == oldVal + 1);
+            assertEquals(oldVal + 1, fieldValue[testCell]);
         } catch (Exception e) {
 
-            assertTrue(false);
+            fail();
         }
 
 
     }
 
+
+    @Test
     public void initializeCellOuterOuTest() {
 
         try {
@@ -88,10 +90,10 @@ public class BoardTest {
             privateMethod.setAccessible(true);
             privateMethod.invoke(board, testCell, true);
 
-            assertTrue(fieldValue[testCell] == oldVal + 1);
+            assertEquals(fieldValue[testCell], oldVal + 1);
         } catch (Exception e) {
 
-            assertTrue(false);
+            fail();
         }
 
 
@@ -119,10 +121,10 @@ public class BoardTest {
             privateMethod.setAccessible(true);
             privateMethod.invoke(board, testCell, false);
 
-            assertTrue(fieldValue[testCell] == EMPTY_CELL);
+            assertEquals(EMPTY_CELL, fieldValue[testCell]);
         } catch (Exception e) {
 
-            assertTrue(false);
+            fail();
         }
 
 
@@ -149,20 +151,14 @@ public class BoardTest {
             privateMethod.setAccessible(true);
             privateMethod.invoke(board, testCell, true);
 
-            assertTrue(fieldValue[testCell] == EMPTY_CELL);
+            assertEquals(EMPTY_CELL, fieldValue[testCell]);
         } catch (Exception e) {
 
-            assertTrue(false);
+            fail();
         }
 
 
     }
 
-//    @Test
-//    public void findCellOuterTest() {
-//        JLabel statusbar = new JLabel("");
-//        Board board = new Board(statusbar);
-//        board.findCell(3, true);
-//        assertTrue(true);
-//    }
+
 }

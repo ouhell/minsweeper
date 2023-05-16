@@ -2,5 +2,5 @@ projectKey=minesweeper
 serverUrl=http://localhost:9000
 serverVersion=10.0.0.68432
 dashboardUrl=http://localhost:9000/dashboard?id=minesweeper
-ceTaskId=AYgA9zNkpmvg46_zVSF1
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AYgA9zNkpmvg46_zVSF1
+ceTaskId=AYglnNB__zwCMIxYLEB2
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYglnNB__zwCMIxYLEB2
