@@ -17,20 +17,20 @@ import javax.swing.JPanel;
 public class Board extends JPanel {
     private static final long serialVersionUID = 6195235521361212179L;
 
-    private final int NUM_IMAGES = 13;
-    private final int CELL_SIZE = 15;
+    private static final int NUM_IMAGES = 13;
+    private static final int CELL_SIZE = 15;
 
-    private final int COVER_FOR_CELL = 10;
-    private final int MARK_FOR_CELL = 10;
-    private final int EMPTY_CELL = 0;
-    private final int MINE_CELL = 9;
-    private final int COVERED_MINE_CELL = MINE_CELL + COVER_FOR_CELL;
-    private final int MARKED_MINE_CELL = COVERED_MINE_CELL + MARK_FOR_CELL;
+    private static final int COVER_FOR_CELL = 10;
+    private static final int MARK_FOR_CELL = 10;
+    private static final int EMPTY_CELL = 0;
+    private static final int MINE_CELL = 9;
+    private static final int COVERED_MINE_CELL = MINE_CELL + COVER_FOR_CELL;
+    private static final int MARKED_MINE_CELL = COVERED_MINE_CELL + MARK_FOR_CELL;
 
-    private final int DRAW_MINE = 9;
-    private final int DRAW_COVER = 10;
-    private final int DRAW_MARK = 11;
-    private final int DRAW_WRONG_MARK = 12;
+    private static final int DRAW_MINE = 9;
+    private static final int DRAW_COVER = 10;
+    private static final int DRAW_MARK = 11;
+    private static final int DRAW_WRONG_MARK = 12;
 
     private int[] field;
     private boolean inGame;
@@ -140,6 +140,7 @@ public class Board extends JPanel {
         }
     }
 
+    // method that construct a cell given its number
     private void initializeCell(int cell, boolean checkAllCells) {
         boolean cellChecker = checkAllCells ? cell < allCells : cell >= 0;
         if (cellChecker && field[cell] != COVERED_MINE_CELL) {
@@ -199,7 +200,8 @@ public class Board extends JPanel {
 
     }
 
-
+    // override the Jpanel pain method to display our ui
+    @Override
     public void paint(Graphics g) {
 
         int cell = 0;
@@ -254,9 +256,9 @@ public class Board extends JPanel {
     }
 
 
-    class MinesAdapter extends MouseAdapter {
+    public class MinesAdapter extends MouseAdapter {
 
-
+        @Override
         public void mousePressed(MouseEvent e) {
 
             int x = e.getX();
@@ -300,15 +302,21 @@ public class Board extends JPanel {
 
         }
 
+
+        // flag a cell to disarm a mine
         private void markCell(int cRow, int cCol) {
+            // if the cell is not marked
             if (field[(cRow * cols) + cCol] <= COVERED_MINE_CELL) {
+                // if there are mines left
                 if (minesLeft > 0) {
                     field[(cRow * cols) + cCol] += MARK_FOR_CELL;
                     minesLeft--;
                     statusbar.setText(Integer.toString(minesLeft));
                 } else
                     statusbar.setText("No marks left");
-            } else {
+            }
+            // if the cell is already marked unmark it
+            else {
 
                 field[(cRow * cols) + cCol] -= MARK_FOR_CELL;
                 minesLeft++;
@@ -318,7 +326,7 @@ public class Board extends JPanel {
 
         // check the cell if there is a bomb
         private boolean checkCell(int cRow, int cCol) {
-            // if cell is marked
+            // if cell is marked the cell can't be checked
             if (field[(cRow * cols) + cCol] > COVERED_MINE_CELL) {
                 return false;
             }
