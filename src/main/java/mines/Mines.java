@@ -1,12 +1,14 @@
 package mines;
 
 import java.awt.BorderLayout;
+import java.io.Serial;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 
 public class Mines extends JFrame {
+    @Serial
     private static final long serialVersionUID = 4772165125287256837L;
 
 
