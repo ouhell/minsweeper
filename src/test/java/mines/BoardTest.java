@@ -10,22 +10,6 @@ import static org.junit.Assert.*;
 
 public class BoardTest {
 
-    private static final long serialVersionUID = 6195235521361212179L;
-
-    private static final int NUM_IMAGES = 13;
-    private static final int CELL_SIZE = 15;
-
-    private static final int COVER_FOR_CELL = 10;
-    private static final int MARK_FOR_CELL = 10;
-    private static final int EMPTY_CELL = 0;
-    private static final int MINE_CELL = 9;
-    private static final int COVERED_MINE_CELL = MINE_CELL + COVER_FOR_CELL;
-    private static final int MARKED_MINE_CELL = COVERED_MINE_CELL + MARK_FOR_CELL;
-
-    private static final int DRAW_MINE = 9;
-    private static final int DRAW_COVER = 10;
-    private static final int DRAW_MARK = 11;
-    private static final int DRAW_WRONG_MARK = 12;
 
 //    @Test
 //    public void initializeCellStartTest() {
@@ -36,6 +20,7 @@ public class BoardTest {
 //    }
 //
 
+
     @Test
     public void initializeCellStartTest() {
 
@@ -43,6 +28,7 @@ public class BoardTest {
             JLabel statusbar = new JLabel("");
             Board board = new Board(statusbar);
             board.newGame();
+
 
             // Access private field
             Field privateField = Board.class.getDeclaredField("field");
@@ -107,6 +93,14 @@ public class BoardTest {
             Board board = new Board(statusbar);
             board.newGame();
 
+            Field mineCellField = Board.class.getDeclaredField("MINE_CELL");
+            mineCellField.setAccessible(true);
+            final int MINE_CELL = (int) mineCellField.get(board);
+
+            Field emptyCellField = Board.class.getDeclaredField("EMPTY_CELL");
+            emptyCellField.setAccessible(true);
+            final int EMPTY_CELL = (int) emptyCellField.get(board);
+
             // Access private field
             Field privateField = Board.class.getDeclaredField("field");
             privateField.setAccessible(true);
@@ -133,9 +127,19 @@ public class BoardTest {
     @Test
     public void findCellOuterTest() {
         try {
+
+
             JLabel statusbar = new JLabel("");
             Board board = new Board(statusbar);
             board.newGame();
+
+            Field mineCellField = Board.class.getDeclaredField("MINE_CELL");
+            mineCellField.setAccessible(true);
+            final int MINE_CELL = (int) mineCellField.get(board);
+
+            Field emptyCellField = Board.class.getDeclaredField("EMPTY_CELL");
+            emptyCellField.setAccessible(true);
+            final int EMPTY_CELL = (int) emptyCellField.get(board);
 
             // Access private field
             Field privateField = Board.class.getDeclaredField("field");
@@ -152,6 +156,98 @@ public class BoardTest {
             privateMethod.invoke(board, testCell, true);
 
             assertEquals(EMPTY_CELL, fieldValue[testCell]);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+
+
+    }
+
+
+    @Test
+    public void checkCellTest() {
+        try {
+            JLabel statusbar = new JLabel("");
+            Board board = new Board(statusbar);
+            board.newGame();
+
+            Board.MinesAdapter adapter = board.new MinesAdapter();
+            int row = 3;
+            int col = 0;
+
+
+            // Access private field
+            Field privateField = Board.class.getDeclaredField("field");
+            privateField.setAccessible(true);
+            int[] fieldValue = (int[]) privateField.get(board);
+
+            Method markCell = Board.MinesAdapter.class.getDeclaredMethod("markCell", int.class, int.class);
+            markCell.setAccessible(true);
+
+            markCell.invoke(adapter, row, col);
+
+
+            Method checkCell = Board.MinesAdapter.class.getDeclaredMethod("checkCell", int.class, int.class);
+            checkCell.setAccessible(true);
+
+            boolean result = (boolean) checkCell.invoke(adapter, row, col);
+
+            assertFalse(result);
+
+
+            row = 4;
+
+
+            result = (boolean) checkCell.invoke(adapter, row, col);
+
+
+            assertTrue(result);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+
+
+    }
+
+    @Test
+    public void markCellTest() {
+        try {
+            JLabel statusbar = new JLabel("");
+            Board board = new Board(statusbar);
+            board.newGame();
+
+            Board.MinesAdapter adapter = board.new MinesAdapter();
+            int row = 3;
+            int col = 0;
+
+            Field markForCellField = Board.class.getDeclaredField("MARK_FOR_CELL");
+            markForCellField.setAccessible(true);
+            final int MARK_FOR_CELL = (int) markForCellField.get(board);
+
+
+            Method markCell = Board.MinesAdapter.class.getDeclaredMethod("markCell", int.class, int.class);
+            markCell.setAccessible(true);
+
+            markCell.invoke(adapter, row, col);
+
+
+            Field colField = Board.class.getDeclaredField("cols");
+            colField.setAccessible(true);
+            int colsValue = (int) colField.get(board);
+
+
+            // Access private field
+            Field privateField = Board.class.getDeclaredField("field");
+            privateField.setAccessible(true);
+            int[] fieldValue = (int[]) privateField.get(board);
+
+            assertTrue(fieldValue[(row * colsValue) + col] >= MARK_FOR_CELL);
+
+
         } catch (Exception e) {
 
             fail();
